@@ -3,7 +3,7 @@ package com.example.demobcknd.models;
 import javax.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
-public class User {
+public class user {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
