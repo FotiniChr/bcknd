@@ -6,13 +6,12 @@ import org.springframework.data.repository.CrudRepository;
 
 
 
-// This will be AUTO IMPLEMENTED by Spring into a Bean called userRepo
+// This will be AUTO IMPLEMENTED by Spring into a Bean called Repo
 // CRUD refers Create, Read, Update, Delete
 
 
 
 
-    public interface Repo extends CrudRepository<User, Integer> {
+public interface Repo extends CrudRepository<User, Integer> {
 
-    }
-
+}
