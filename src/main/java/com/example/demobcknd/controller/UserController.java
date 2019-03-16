@@ -1,7 +1,5 @@
 package com.example.demobcknd.controller;
 
-import java.util.Optional;
-
 import com.example.demobcknd.Repositories.Repo;
 import com.example.demobcknd.model.User;
 
@@ -43,14 +41,24 @@ public class UserController {
 
 
 	@RequestMapping("{id}")
-    public @ResponseBody Optional<User> getUserID(@PathVariable("id") int id) {
-        return userRepository.findById(id) ;
+    public @ResponseBody User getUserID(@PathVariable("id") int id) {
+        return userRepository.findById(id).get() ;
 		}
 
 		@RequestMapping("/delete/{id}")
     public @ResponseBody String deleteUserID(@PathVariable("id") int id) {
 				 userRepository.deleteById(id); 
 				 return "deleted";
+		}
+
+		@RequestMapping("/update/{id}")
+    public @ResponseBody String updateUser(@PathVariable("id") int id,@RequestParam String name
+	, @RequestParam String email) {
+				User n = userRepository.findById(id).get();
+				n.setEmail(email);
+				n.setName(name);
+				userRepository.save(n);
+				 return "updated";
 		}
 
 		
