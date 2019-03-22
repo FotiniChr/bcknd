@@ -22,10 +22,10 @@ public class userService {
     }
 
     public String addUser(String name, String email) {
-        user n = new user();
-        n.setName(name);
-        n.setEmail(email);
-        userRep.save(n);
+        user u = new user();
+        u.setName(name);
+        u.setEmail(email);
+        userRep.save(u);
         return "Saved";
     }
 
@@ -35,10 +35,10 @@ public class userService {
     }
 
     public String updateUser(int id, String email, String name) {
-        user n = userRep.findById(id).get();
-        n.setEmail(email);
-        n.setName(name);
-        userRep.save(n);
+        user u = userRep.findById(id).get();
+        u.setEmail(email);
+        u.setName(name);
+        userRep.save(u);
         return "updated";
     }
 
