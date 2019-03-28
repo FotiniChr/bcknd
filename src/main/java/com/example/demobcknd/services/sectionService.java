@@ -2,10 +2,8 @@ package com.example.demobcknd.services;
 
 import com.example.demobcknd.models.room;
 import com.example.demobcknd.models.section;
-import com.example.demobcknd.models.user;
 import com.example.demobcknd.repositories.roomRepository;
 import com.example.demobcknd.repositories.sectionRepository;
-import com.example.demobcknd.repositories.userRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
