@@ -18,7 +18,7 @@ public class theaterController {
     theaterService theaterservice = new theaterService();
 
     @GetMapping(path = "/add") // Map ONLY GET Requests
-    public @ResponseBody String addNewUser(@RequestParam String address, @RequestParam String postalcode,
+    public @ResponseBody String addNewTheater(@RequestParam String address, @RequestParam String postalcode,
             @RequestParam String phone, @RequestParam String mail) {
         return theaterservice.addTheater(address, postalcode, phone, mail);
 
@@ -26,17 +26,17 @@ public class theaterController {
 
     @GetMapping(path = "/all")
     public @ResponseBody Iterable<theater> getAllTheaters() {
-        return theaterservice.findAll();
+        return theaterservice.findAllTheaters();
     }
 
     @RequestMapping("{id}")
-    public @ResponseBody theater getTheaterId(@PathVariable("id") int id) {
+    public @ResponseBody theater getTheaterById(@PathVariable("id") int id) {
         return theaterservice.findTheater(id);
 
     }
 
     @RequestMapping("/delete/{id}")
-    public @ResponseBody String deleteTheaterID(@PathVariable("id") int id) {
+    public @ResponseBody String deleteTheaterByID(@PathVariable("id") int id) {
 
         return theaterservice.deleteTheater(id);
     }

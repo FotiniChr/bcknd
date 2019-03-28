@@ -30,7 +30,7 @@ public class userController {
 
 	@GetMapping(path = "/all")
 	public @ResponseBody Iterable<user> getAllUsers() {
-		return userS.findAll();
+		return userS.findAllUsers();
 	}
 
 	@RequestMapping("{id}")

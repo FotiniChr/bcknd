@@ -7,7 +7,7 @@ public class theater {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     
-    private int theaterid;
+    private int theaterId;
     private String address;
     private String postalCode;
     private String phone;
@@ -77,13 +77,15 @@ public class theater {
     }
 
 
-    public int getTheaterid() {
-        return this.theaterid;
+
+    public int getTheaterId() {
+        return this.theaterId;
     }
 
-    public void setTheaterid(int theaterid) {
-        this.theaterid = theaterid;
+    public void setTheaterId(int theaterId) {
+        this.theaterId = theaterId;
     }
+    
 
 
 
