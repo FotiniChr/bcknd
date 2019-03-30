@@ -18,9 +18,10 @@ public class sectionController {
     sectionService sectionservice = new sectionService();
 
     @GetMapping(path = "/add") // Map ONLY GET Requests
-    public @ResponseBody String addNewSection(@RequestParam String name, @RequestParam Long roomid) {
+    public @ResponseBody String addNewSection(@RequestParam Long roomid,
+            @RequestParam int rows, @RequestParam int seats) {
 
-        return sectionservice.addSection(name,roomid);
+        return sectionservice.addSection(roomid, rows, seats);
 
     }
 
@@ -28,7 +29,7 @@ public class sectionController {
     public @ResponseBody Iterable<section> getAllSections() {
 
         return sectionservice.findAllSections();
-        
+
     }
 
     @RequestMapping("{id}")
@@ -45,10 +46,11 @@ public class sectionController {
     }
 
     @RequestMapping("/update/{id}")
-    public @ResponseBody String updateSection(@PathVariable("id") Long id, @RequestParam String name,@RequestParam Long roomid){
+    public @ResponseBody String updateSection(@PathVariable("id") Long id, @RequestParam int rows,
+            @RequestParam int seats, @RequestParam Long roomid) {
 
-        return sectionservice.updateSection(id,name,roomid);
-        
+        return sectionservice.updateSection(id, roomid, rows, seats);
+
     }
 
 }

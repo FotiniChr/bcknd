@@ -27,12 +27,13 @@ public class sectionService {
         return sectionrepository.findById(id).get();
     }
 
-    public String addSection(String name, Long roomId) {
+    public String addSection(Long roomId, int rows, int seats) {
         
         room newroom =  roomrepository.findById(roomId).get();
         section newsection = new section();
-        newsection.setName(name);
         newsection.setNewroom(newroom);
+        newsection.setRows(rows);
+        newsection.setSeats(seats);
         sectionrepository.save(newsection);
         return "saved";
 
@@ -44,12 +45,13 @@ public class sectionService {
         return "deleted";
     }
 
-    public String updateSection(Long id, String name, Long roomId) {
+    public String updateSection(Long id, Long roomId, int rows, int seats) {
 
         room newroom =  roomrepository.findById(roomId).get();
 
         section newsection = sectionrepository.findById(id).get();
-        newsection.setName(name);
+        newsection.setRows(rows);
+        newsection.setSeats(seats);
         newsection.setNewroom(newroom);
         sectionrepository.save(newsection);
         return "updated";

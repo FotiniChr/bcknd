@@ -22,10 +22,10 @@ public class roomService {
         return roomrepository.findById(id).get();
     }
 
-    public String addRoom(String name) {
+    public String addRoom(int seats) {
 
         room newroom = new room();
-        newroom.setName(name);
+        newroom.setSeats(seats);
         roomrepository.save(newroom);
         return "saved";
 
@@ -37,10 +37,10 @@ public class roomService {
         return "deleted";
     }
 
-    public String updateRoom(Long id, String name) {
+    public String updateRoom(Long id, int seats) {
 
         room newroom = roomrepository.findById(id).get();
-        newroom.setName(name);
+        newroom.setSeats(seats);
         roomrepository.save(newroom);
         return "updated";
     }
