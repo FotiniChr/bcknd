@@ -8,6 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+
 
 @Entity // This tells Hibernate to make a table out of this class
 public class room {
@@ -19,10 +23,18 @@ public class room {
 
     @OneToMany(mappedBy = "newroom")  // "newroom" eiani to pedio opos to exo 
                     // orisei sthn klassi section
+                    @JsonIgnore
     private List<section> sections;
 
     public room() {
     }
+
+    public room(Long roomId, int seats) {
+        this.roomId = roomId;
+        this.seats = seats;
+    }
+
+    
 
     public Long getRoomId() {
         return this.roomId;

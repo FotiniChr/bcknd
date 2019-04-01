@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity // This tells Hibernate to make a table out of this class
 public class section {
     @Id
@@ -18,10 +20,15 @@ public class section {
 
     @ManyToOne   // polla sections exoun 1 room
     @JoinColumn(name = "room_id") // JoinClumn epeidh eberiexete sthn klassi room
+
     private room newroom;
 
     public section() {
     }
+
+
+    
+
 
     public Long getSectionId() {
         return this.sectionId;
