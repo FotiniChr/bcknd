@@ -17,7 +17,8 @@ public class room {
 
     private int seats;
 
-    @OneToMany(mappedBy = "newroom")
+    @OneToMany(mappedBy = "newroom")  // "newroom" eiani to pedio opos to exo 
+                    // orisei sthn klassi section
     private List<section> sections;
 
     public room() {

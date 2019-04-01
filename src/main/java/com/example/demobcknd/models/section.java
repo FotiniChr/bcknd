@@ -16,8 +16,8 @@ public class section {
     int rows;
     int seats;
 
-    @ManyToOne
-    @JoinColumn(name = "room_id")
+    @ManyToOne   // polla sections exoun 1 room
+    @JoinColumn(name = "room_id") // JoinClumn epeidh eberiexete sthn klassi room
     private room newroom;
 
     public section() {
