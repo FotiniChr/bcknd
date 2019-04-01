@@ -6,7 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity // This tells Hibernate to make a table out of this class
@@ -25,9 +24,6 @@ public class section {
 
     public section() {
     }
-
-
-    
 
 
     public Long getSectionId() {
