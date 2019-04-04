@@ -48,11 +48,9 @@ public class customerController {
     }
 
     @RequestMapping("/update/{id}")
-    public @ResponseBody String updateCustomer(
-            @PathVariable("id") long id, @RequestParam String firstName, @RequestParam String lastName,
-            @RequestParam String email, @RequestParam String phone, @RequestParam String address,
-            @RequestParam String postalCode
-    ) {
+    public @ResponseBody String updateCustomer(@PathVariable("id") long id, @RequestParam String firstName,
+            @RequestParam String lastName, @RequestParam String email, @RequestParam String phone,
+            @RequestParam String address, @RequestParam String postalCode) {
 
         return customerservice.updateCustomer(id, firstName, lastName, email, phone, address, postalCode);
     }

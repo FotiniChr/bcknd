@@ -13,17 +13,16 @@ public class section {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sectionId;
 
-    int rows;
-    int seats;
+    private int rows;
+    private int seats;
 
-    @ManyToOne   // polla sections exoun 1 room
-    @JoinColumn(name = "room_id") // JoinClumn epeidh eberiexete sthn klassi room
-
+    // pedio room_id    -FK-
+    @ManyToOne 
+    @JoinColumn(name = "room_id",referencedColumnName = "roomId") 
     private room newroom;
 
     public section() {
     }
-
 
     public Long getSectionId() {
         return this.sectionId;

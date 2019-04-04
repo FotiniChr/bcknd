@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class sectionService {
     @Autowired 
-    private sectionRepository sectionrepository;
+    private sectionRepository sectionrepository;    
+
     @Autowired 
     private roomRepository roomrepository;
 
@@ -22,14 +23,15 @@ public class sectionService {
 
     }
 
-    public section findSection(Long id) {
+    public section findSection(Long sectionId) {
 
-        return sectionrepository.findById(id).get();
+        return sectionrepository.findById(sectionId).get();
     }
 
     public String addSection(Long roomId, int rows, int seats) {
         
         room newroom =  roomrepository.findById(roomId).get();
+
         section newsection = new section();
         newsection.setNewroom(newroom);
         newsection.setRows(rows);
@@ -39,17 +41,17 @@ public class sectionService {
 
     }
 
-    public String deleteSection(Long id) {
+    public String deleteSection(Long sectionId) {
 
-        sectionrepository.deleteById(id);
+        sectionrepository.deleteById(sectionId);
         return "deleted";
     }
 
-    public String updateSection(Long id, Long roomId, int rows, int seats) {
+    public String updateSection(Long sectionId, Long roomId, int rows, int seats) {
 
         room newroom =  roomrepository.findById(roomId).get();
 
-        section newsection = sectionrepository.findById(id).get();
+        section newsection = sectionrepository.findById(sectionId).get();
         newsection.setRows(rows);
         newsection.setSeats(seats);
         newsection.setNewroom(newroom);

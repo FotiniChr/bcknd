@@ -12,7 +12,6 @@ public class user {
 	private Integer id;
 
 	private String name;
-
 	private String email;
 
 	public Integer getId() {

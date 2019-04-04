@@ -8,39 +8,37 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class roomService {
-    @Autowired 
+    @Autowired
     private roomRepository roomrepository;
 
     public Iterable<room> findAllRooms() {
-
         return roomrepository.findAll();
-
     }
 
-    public room findRoom(Long id) {
-
-        return roomrepository.findById(id).get();
+    public room findRoom(Long roomId) {
+        return roomrepository.findById(roomId).get();
     }
 
-    public String addRoom(int seats) {
+    public String addRoom(int seats, int _costPerDay) {
 
         room newroom = new room();
         newroom.setSeats(seats);
+        newroom.setCostPerDay(_costPerDay);
         roomrepository.save(newroom);
         return "saved";
-
     }
 
-    public String deleteRoom(Long id) {
+    public String deleteRoom(Long roomId) {
 
-        roomrepository.deleteById(id);
+        roomrepository.deleteById(roomId);
         return "deleted";
     }
 
-    public String updateRoom(Long id, int seats) {
+    public String updateRoom(Long roomId, int seats, int _costPerDay) {
 
-        room newroom = roomrepository.findById(id).get();
+        room newroom = roomrepository.findById(roomId).get();
         newroom.setSeats(seats);
+        newroom.setCostPerDay(_costPerDay);
         roomrepository.save(newroom);
         return "updated";
     }

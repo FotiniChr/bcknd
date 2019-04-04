@@ -4,15 +4,14 @@ import javax.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class theater {
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
     private int theaterId;
+
     private String address;
     private String postalCode;
     private String phone;
     private String mail;
-
 
     public theater() {
     }
@@ -76,8 +75,6 @@ public class theater {
         return this;
     }
 
-
-
     public int getTheaterId() {
         return this.theaterId;
     }
@@ -85,10 +82,5 @@ public class theater {
     public void setTheaterId(int theaterId) {
         this.theaterId = theaterId;
     }
-    
-
-
-
-    
 
 }
