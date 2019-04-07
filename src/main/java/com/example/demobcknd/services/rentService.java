@@ -15,10 +15,10 @@ public class rentService {
     @Autowired
     private rentRepository rentrepository;
 
-    @Autowired  // epeidh exo fk
+    @Autowired  // epeidh exo pedio customerId (fk)
     private customerRepository custRep;     
 
-    @Autowired  // epeidh exo fk
+    @Autowired  // epeidh exo pedio roomId (fk)
     private roomRepository roomrepository;
 
     public Iterable<rent> findAllRents() {
