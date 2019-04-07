@@ -18,11 +18,10 @@ public class sectionController {
     sectionService sectionservice = new sectionService();
 
     @GetMapping(path = "/add") // Map ONLY GET Requests
-    public @ResponseBody String addNewSection(@RequestParam Long roomid,
-            @RequestParam int rows, @RequestParam int seats) {
+    public @ResponseBody String addNewSection(@RequestParam Long roomid, @RequestParam int rows,
+            @RequestParam int seats) {
 
         return sectionservice.addSection(roomid, rows, seats);
-
     }
 
     @GetMapping(path = "/all")

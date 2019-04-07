@@ -18,11 +18,11 @@ public class customerController {
     customerService customerservice = new customerService();
 
     @GetMapping(path = "/add") // Map ONLY GET Requests
-    public @ResponseBody String addNewCustomer(@RequestParam String firstName, @RequestParam String lastName,
+    public @ResponseBody String addNewCustomer(@RequestParam String firstname, @RequestParam String lastname,
             @RequestParam String email, @RequestParam String phone, @RequestParam String address,
-            @RequestParam String postalCode) {
+            @RequestParam String postalcode) {
 
-        return customerservice.addCustomer(firstName, lastName, email, phone, address, postalCode);
+        return customerservice.addCustomer(firstname, lastname, email, phone, address, postalcode);
 
     }
 
@@ -48,11 +48,11 @@ public class customerController {
     }
 
     @RequestMapping("/update/{id}")
-    public @ResponseBody String updateCustomer(@PathVariable("id") long id, @RequestParam String firstName,
-            @RequestParam String lastName, @RequestParam String email, @RequestParam String phone,
-            @RequestParam String address, @RequestParam String postalCode) {
+    public @ResponseBody String updateCustomer(@PathVariable("id") long id, @RequestParam String firstname,
+            @RequestParam String lastname, @RequestParam String email, @RequestParam String phone,
+            @RequestParam String address, @RequestParam String postalcode) {
 
-        return customerservice.updateCustomer(id, firstName, lastName, email, phone, address, postalCode);
+        return customerservice.updateCustomer(id, firstname, lastname, email, phone, address, postalcode);
     }
 
 }

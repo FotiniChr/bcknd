@@ -18,9 +18,9 @@ public class roomController {
     roomService roomservice = new roomService();
 
     @GetMapping(path = "/add") // Map ONLY GET Requests
-    public @ResponseBody String addNewRoom(@RequestParam int seats, @RequestParam int _costPerDay) {
+    public @ResponseBody String addNewRoom(@RequestParam int seats, @RequestParam int costperday) {
 
-        return roomservice.addRoom(seats, _costPerDay);
+        return roomservice.addRoom(seats, costperday);
 
     }
 
@@ -47,9 +47,9 @@ public class roomController {
 
     @RequestMapping("/update/{id}")
     public @ResponseBody String updateRoom(@PathVariable("id") Long id, @RequestParam int seats,
-            @RequestParam int _costPerDay) {
+            @RequestParam int costperday) {
 
-        return roomservice.updateRoom(id, seats, _costPerDay);
+        return roomservice.updateRoom(id, seats, costperday);
     }
 
 }

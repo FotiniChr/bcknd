@@ -17,10 +17,10 @@ public class rentController {
     rentService rentservice = new rentService();
 
     @GetMapping(path = "/add") // Map ONLY GET Requests
-    public @ResponseBody String addNewSection(@RequestParam Long customerId, @RequestParam Long roomId,
+    public @ResponseBody String addNewSection(@RequestParam Long customerid, @RequestParam Long roomid,
             @RequestParam String date, @RequestParam int period) {
 
-        return rentservice.addRent(customerId, roomId, date, period);
+        return rentservice.addRent(customerid, roomid, date, period);
 
     }
 
@@ -32,23 +32,23 @@ public class rentController {
     }
 
     @RequestMapping("{id}")
-    public @ResponseBody rent getRentById(@PathVariable("id") Long rentId) {
+    public @ResponseBody rent getRentById(@PathVariable("id") Long rentid) {
 
-        return rentservice.findRent(rentId);
+        return rentservice.findRent(rentid);
 
     }
 
     @RequestMapping("/delete/{id}")
-    public @ResponseBody String deleteRentById(@PathVariable("id") Long rentId) {
+    public @ResponseBody String deleteRentById(@PathVariable("id") Long rentid) {
 
-        return rentservice.deleteRent(rentId);
+        return rentservice.deleteRent(rentid);
     }
 
     @RequestMapping("/update/{id}")
-    public @ResponseBody String updateRent(@PathVariable("id") Long id,@RequestParam Long customerId, @RequestParam Long roomId,
+    public @ResponseBody String updateRent(@PathVariable("id") Long id,@RequestParam Long customerid, @RequestParam Long roomid,
     @RequestParam String date, @RequestParam int period) {
 
-        return rentservice.updateRent(id, customerId, roomId, date, period);
+        return rentservice.updateRent(id, customerid, roomid, date, period);
 
     }
 
