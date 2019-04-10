@@ -17,8 +17,8 @@ public class theaterService {
 
     }
 
-    public theater findTheater(int id) {
-        return theaterrepository.findById(id).get();
+    public theater findTheater(int theaterId) {
+        return theaterrepository.findById(theaterId).get();
     }
 
     public String addTheater(String address, String postalcode, String phone, String mail) {
@@ -31,13 +31,13 @@ public class theaterService {
         return "Saved";
     }
 
-    public String deleteTheater(int id) {
-        theaterrepository.deleteById(id);
+    public String deleteTheater(int theaterId) {
+        theaterrepository.deleteById(theaterId);
         return "deleted";
     }
 
-    public String updateTheater(int id, String address, String postalcode, String phone, String mail) {
-        theater t = theaterrepository.findById(id).get();
+    public String updateTheater(int theaterId, String address, String postalcode, String phone, String mail) {
+        theater t = theaterrepository.findById(theaterId).get();
         t.setAddress(address);
         t.setPostalCode(postalcode);
         t.setPhone(phone);
@@ -45,5 +45,8 @@ public class theaterService {
         theaterrepository.save(t);
         return "updated";
     }
+
+// exo na allaxo to id -? theaterId kai na ftiaxo kai to castController.java 
+
 
 }
