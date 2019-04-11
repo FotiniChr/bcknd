@@ -6,6 +6,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class section {
@@ -16,10 +19,15 @@ public class section {
     private int rows;
     private int seats;
 
-    // pedio room_id    -FK-
-    @ManyToOne 
-    @JoinColumn(name = "room_id",referencedColumnName = "roomId") 
+    // pedio room_id -FK-
+    @ManyToOne
+    @JoinColumn(name = "room_id", referencedColumnName = "roomId")
     private room newroom;
+
+    // ++ gia to performancePrice.java
+    @OneToOne(mappedBy = "newSection")
+    @JsonIgnore
+    private performancePrice _perfPrice;
 
     public section() {
     }

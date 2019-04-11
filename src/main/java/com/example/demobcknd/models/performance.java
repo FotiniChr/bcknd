@@ -1,11 +1,16 @@
 package com.example.demobcknd.models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class performance {
@@ -15,7 +20,6 @@ public class performance {
 
     private String name;
 
-    
     // pedio cast_id -FK-
     @OneToOne
     @JoinColumn(name = "cast_id", referencedColumnName = "CastId")
@@ -25,6 +29,10 @@ public class performance {
     private String start_time;
     private int duration;
 
+    // ++ gia to performancePrice.java
+    @OneToMany(mappedBy = "newPerformance")
+    @JsonIgnore
+    private List<performancePrice> performPriceslist;
 
     public performance() {
     }
@@ -115,19 +123,11 @@ public class performance {
         return this;
     }
 
-
     @Override
     public String toString() {
-        return "{" +
-            " performanceId='" + getPerformanceId() + "'" +
-            ", name='" + getName() + "'" +
-            ", newCast='" + getNewCast() + "'" +
-            ", date='" + getDate() + "'" +
-            ", start_time='" + getStart_time() + "'" +
-            ", duration='" + getDuration() + "'" +
-            "}";
+        return "{" + " performanceId='" + getPerformanceId() + "'" + ", name='" + getName() + "'" + ", newCast='"
+                + getNewCast() + "'" + ", date='" + getDate() + "'" + ", start_time='" + getStart_time() + "'"
+                + ", duration='" + getDuration() + "'" + "}";
     }
-
-
 
 }
