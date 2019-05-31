@@ -14,19 +14,14 @@ public class userService {
 
     public Iterable<user> findAllUsers() {
         return userRep.findAll();
-
     }
 
     public user findUser(int id) {
         return userRep.findById(id).get();
     }
 
-    public String addUser(String name, String email) {
-        user u = new user();
-        u.setName(name);
-        u.setEmail(email);
-        userRep.save(u);
-        return "Saved";
+    public void addUser(user myuser) {
+        userRep.save(myuser);
     }
 
     public String deleteUser(int id) {
