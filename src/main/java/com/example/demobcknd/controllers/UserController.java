@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller // This means that this class is a Controller
@@ -51,16 +49,22 @@ public ResponseEntity<Iterable<user>> getAllUsers() {
     }
 
 
-	@RequestMapping("/delete/{id}")
-	public @ResponseBody String deleteUserID(@PathVariable("id") int id) {
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteUser(@PathVariable("id") int id) {
+ 
+        userS.deleteUser(id);
+        return new ResponseEntity<user>(HttpStatus.NO_CONTENT);
+    }
 
-		return userS.deleteUser(id);
-	}
+	
+	@RequestMapping(value="/update/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateUser(@PathVariable("id") int id, @RequestBody user user) {
+ 
+		userS.updateUser(id,user);
+		user.setId(id);
+        return new ResponseEntity<user>(user, HttpStatus.OK);
+    }
 
-	@RequestMapping("/update/{id}")
-	public @ResponseBody String updateUser(@PathVariable("id") int id, @RequestParam String name,
-			@RequestParam String email) {
-		return userS.updateUser(id, email, name);
-	}
+
 
 }

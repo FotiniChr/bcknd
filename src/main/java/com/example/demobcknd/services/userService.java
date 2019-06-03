@@ -29,10 +29,10 @@ public class userService {
         return "deleted";
     }
     
-    public String updateUser(int id, String email, String name) {
+    public String updateUser(int id,user user) {
         user u = userRep.findById(id).get();
-        u.setEmail(email);
-        u.setName(name);
+        u.setEmail(user.getEmail());
+        u.setName(user.getName());
         userRep.save(u);
         return "updated";
     }
