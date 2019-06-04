@@ -3,13 +3,14 @@ package com.example.demobcknd.controllers;
 import com.example.demobcknd.models.theater;
 import com.example.demobcknd.services.theaterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 
@@ -17,38 +18,51 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @CrossOrigin 
 @RequestMapping(path = "/theater", method = { RequestMethod.GET, RequestMethod.POST }) 
 public class theaterController {
-    @Autowired
 
+    @Autowired
     theaterService theaterservice = new theaterService();
 
-    @GetMapping(path = "/add") // Map ONLY GET Requests
-    public @ResponseBody String addNewTheater(@RequestParam String address, @RequestParam String postalcode,
-            @RequestParam String phone, @RequestParam String mail) {
-        return theaterservice.addTheater(address, postalcode, phone, mail);
+    @RequestMapping(path = "/add", method = RequestMethod.POST)
+	public ResponseEntity<?> addTheater(@RequestBody theater newTheater) {
 
+        theaterservice.addTheater(newTheater);
+
+		HttpHeaders headers = new HttpHeaders();
+		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+	}
+
+
+    @RequestMapping(path = "/all", method = RequestMethod.GET)
+	public ResponseEntity<Iterable<theater>> getAllTheaters() {
+		Iterable<theater> theaters = theaterservice.findAllTheaters();
+		return new ResponseEntity<Iterable<theater>>(theaters, HttpStatus.OK);
     }
+    
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> getTheater(@PathVariable("id") int id) {
+        theater newTheater = theaterservice.findTheater(id);
+		return new ResponseEntity<theater>(newTheater, HttpStatus.OK);
+	}
 
-    @GetMapping(path = "/all")
-    public @ResponseBody Iterable<theater> getAllTheaters() {
-        return theaterservice.findAllTheaters();
-    }
 
-    @RequestMapping("{id}")
-    public @ResponseBody theater getTheaterById(@PathVariable("id") int id) {
-        return theaterservice.findTheater(id);
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteTheater(@PathVariable("id") int id) {
 
-    }
+        theaterservice.deleteTheater(id);
+		return new ResponseEntity<theater>(HttpStatus.NO_CONTENT);
+	}
 
-    @RequestMapping("/delete/{id}")
-    public @ResponseBody String deleteTheaterByID(@PathVariable("id") int id) {
 
-        return theaterservice.deleteTheater(id);
-    }
 
-    @RequestMapping("/update/{id}")
-    public @ResponseBody String updateTheater(@PathVariable("id") int id, @RequestParam String address,@RequestParam String postalcode,
-            @RequestParam String phone, @RequestParam String mail) {
-        return theaterservice.updateTheater(id, address, postalcode, phone, mail);
-    }
+
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateTheater(@PathVariable("id") int id, @RequestBody theater newTheater) {
+
+        theaterservice.updateTheater(id, newTheater);
+        newTheater.setTheaterId(id);
+		return new ResponseEntity<theater>(newTheater, HttpStatus.OK);
+	}
+
+
 
 }

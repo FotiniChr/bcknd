@@ -24,17 +24,15 @@ public class userService {
         userRep.save(myuser);
     }
 
-    public String deleteUser(int id) {
+    public void deleteUser(int id) {
         userRep.deleteById(id);
-        return "deleted";
     }
     
-    public String updateUser(int id,user user) {
+    public void updateUser(int id,user user) {
         user u = userRep.findById(id).get();
         u.setEmail(user.getEmail());
         u.setName(user.getName());
         userRep.save(u);
-        return "updated";
     }
 
 }

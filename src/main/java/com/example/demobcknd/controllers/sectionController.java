@@ -3,55 +3,65 @@ package com.example.demobcknd.controllers;
 import com.example.demobcknd.models.section;
 import com.example.demobcknd.services.sectionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @CrossOrigin 
-@RequestMapping(path = "/section")
+@RequestMapping(path = "/section", method = { RequestMethod.GET, RequestMethod.POST })
 public class sectionController {
     @Autowired
 
-    sectionService sectionservice = new sectionService();
+    sectionService sectionService = new sectionService();
 
-    @GetMapping(path = "/add") // Map ONLY GET Requests
-    public @ResponseBody String addNewSection(@RequestParam Long roomid, @RequestParam int rows,
-            @RequestParam int seats) {
 
-        return sectionservice.addSection(roomid, rows, seats);
+    @RequestMapping(path = "/add", method = RequestMethod.POST)
+	public ResponseEntity<?> addSection(@RequestBody section newSection) {
+
+        sectionService.addSection(newSection);
+
+		HttpHeaders headers = new HttpHeaders();
+		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
+    
 
-    @GetMapping(path = "/all")
-    public @ResponseBody Iterable<section> getAllSections() {
+    @RequestMapping(path = "/all", method = RequestMethod.GET)
+    public ResponseEntity<Iterable<section>> getAllSections() {
 
-        return sectionservice.findAllSections();
+		Iterable<section> sections = sectionService.findAllSections();
+		return new ResponseEntity<Iterable<section>>(sections, HttpStatus.OK);
+	}
 
-    }
 
-    @RequestMapping("{id}")
-    public @ResponseBody section getSectionById(@PathVariable("id") Long id) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> getSectionById(@PathVariable("id") Long id) {
+		section newSection = sectionService.findSection(id);
+		return new ResponseEntity<section>(newSection, HttpStatus.OK);
+	}
 
-        return sectionservice.findSection(id);
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteSection(@PathVariable("id") Long id) {
 
-    }
+        sectionService.deleteSection(id);
+		return new ResponseEntity<section>(HttpStatus.NO_CONTENT);
+	}
 
-    @RequestMapping("/delete/{id}")
-    public @ResponseBody String deleteSectionById(@PathVariable("id") Long id) {
 
-        return sectionservice.deleteSection(id);
-    }
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateSection(@PathVariable("id") Long id, @RequestBody section newSection) {
 
-    @RequestMapping("/update/{id}")
-    public @ResponseBody String updateSection(@PathVariable("id") Long id, @RequestParam int rows,
-            @RequestParam int seats, @RequestParam Long roomid) {
+        sectionService.updateSection(id, newSection);
+        newSection.setSectionId(id);
+		return new ResponseEntity<section>(newSection, HttpStatus.OK);
+	}
 
-        return sectionservice.updateSection(id, roomid, rows, seats);
 
-    }
 
 }

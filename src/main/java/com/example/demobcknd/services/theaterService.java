@@ -21,32 +21,23 @@ public class theaterService {
         return theaterrepository.findById(theaterId).get();
     }
 
-    public String addTheater(String address, String postalcode, String phone, String mail) {
-        theater t= new theater();
-        t.setAddress(address);
-        t.setPostalCode(postalcode);
-        t.setPhone(phone);
-        t.setMail(mail);
-        theaterrepository.save(t);
-        return "Saved";
+    public void addTheater(theater newTheater) {
+        theaterrepository.save(newTheater);
     }
 
-    public String deleteTheater(int theaterId) {
+    public void deleteTheater(int theaterId) {
         theaterrepository.deleteById(theaterId);
-        return "deleted";
     }
 
-    public String updateTheater(int theaterId, String address, String postalcode, String phone, String mail) {
-        theater t = theaterrepository.findById(theaterId).get();
-        t.setAddress(address);
-        t.setPostalCode(postalcode);
-        t.setPhone(phone);
-        t.setMail(mail);
+    public void updateTheater(int id, theater newTheater) {
+        theater t = theaterrepository.findById(id).get();
+        t.setAddress(newTheater.getAddress());
+        t.setPostalCode(newTheater.getPostalCode());
+        t.setPhone(newTheater.getPhone());
+        t.setMail(newTheater.getMail());
         theaterrepository.save(t);
-        return "updated";
     }
 
-// exo na allaxo to id -? theaterId kai na ftiaxo kai to castController.java 
 
 
 }
