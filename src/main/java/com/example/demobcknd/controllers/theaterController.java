@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 
 @Controller
 @CrossOrigin 
-@RequestMapping(path = "/theater")
+@RequestMapping(path = "/theater", method = { RequestMethod.GET, RequestMethod.POST }) 
 public class theaterController {
     @Autowired
 

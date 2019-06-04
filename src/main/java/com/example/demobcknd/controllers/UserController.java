@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller // This means that this class is a Controller
 @CrossOrigin // allow crossorigin
-@RequestMapping(path = "/user", method = { RequestMethod.GET, RequestMethod.POST }) // This means URL's start with /demo
+@RequestMapping(path = "/user", method = { RequestMethod.GET, RequestMethod.POST }) 
 																																										// (after Application path)
 public class userController {
 	@Autowired // This means to get the bean called userRepository
