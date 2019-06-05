@@ -4,8 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class rent {
@@ -14,12 +14,21 @@ public class rent {
     private Long rentId;
 
     // pedio customer_id   -FK-
-    @OneToOne
+    // @OneToOne
+    // @JoinColumn(name = "customer_id", referencedColumnName = "customerId")
+    // private customer newCustomer;
+
+    // pedio room_id       -FK-
+    // @OneToOne
+    // @JoinColumn(name = "room_id", referencedColumnName = "roomId")
+    // private room newRoom;
+
+  
+    @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "customerId")
     private customer newCustomer;
 
-    // pedio room_id       -FK-
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "room_id", referencedColumnName = "roomId")
     private room newRoom;
 

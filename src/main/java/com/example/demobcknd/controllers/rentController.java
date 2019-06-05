@@ -3,55 +3,64 @@ package com.example.demobcknd.controllers;
 import com.example.demobcknd.models.rent;
 import com.example.demobcknd.services.rentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @CrossOrigin 
-@RequestMapping(path = "/rent")
+@RequestMapping(path = "/rent", method = { RequestMethod.GET, RequestMethod.POST })
 public class rentController {
     @Autowired
     rentService rentservice = new rentService();
 
-    @GetMapping(path = "/add") // Map ONLY GET Requests
-    public @ResponseBody String addNewSection(@RequestParam Long customerid, @RequestParam Long roomid,
-            @RequestParam String date, @RequestParam int period) {
+    @RequestMapping(path = "/add", method = RequestMethod.POST)
+	public ResponseEntity<?> addRent(@RequestBody rent newRent) {
 
-        return rentservice.addRent(customerid, roomid, date, period);
+        rentservice.addRent(newRent);
 
+		HttpHeaders headers = new HttpHeaders();
+		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
+    
 
-    @GetMapping(path = "/all")
-    public @ResponseBody Iterable<rent> getAllRents() {
+    @RequestMapping(path = "/all", method = RequestMethod.GET)
+    public ResponseEntity<Iterable<rent>> getAllRent() {
 
-        return rentservice.findAllRents();
+		Iterable<rent> rents = rentservice.findAllRents();
+		return new ResponseEntity<Iterable<rent>>(rents, HttpStatus.OK);
+	}
 
-    }
 
-    @RequestMapping("{id}")
-    public @ResponseBody rent getRentById(@PathVariable("id") Long rentid) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> getRent(@PathVariable("id") Long id) {
 
-        return rentservice.findRent(rentid);
+		rent newRent = rentservice.findRent(id);
+		return new ResponseEntity<rent>(newRent, HttpStatus.OK);
+	}
 
-    }
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteRent(@PathVariable("id") Long id) {
 
-    @RequestMapping("/delete/{id}")
-    public @ResponseBody String deleteRentById(@PathVariable("id") Long rentid) {
+        rentservice.deleteRent(id);
+		return new ResponseEntity<rent>(HttpStatus.NO_CONTENT);
+	}
 
-        return rentservice.deleteRent(rentid);
-    }
 
-    @RequestMapping("/update/{id}")
-    public @ResponseBody String updateRent(@PathVariable("id") Long id,@RequestParam Long customerid, @RequestParam Long roomid,
-    @RequestParam String date, @RequestParam int period) {
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateRent(@PathVariable("id") Long id, @RequestBody rent newRent) {
 
-        return rentservice.updateRent(id, customerid, roomid, date, period);
+        rentservice.updateRent(id,newRent);
+        newRent.setRentId(id);
 
-    }
+		return new ResponseEntity<rent>(newRent, HttpStatus.OK);
+	}
+
 
 }

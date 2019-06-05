@@ -18,14 +18,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(path = "/section", method = { RequestMethod.GET, RequestMethod.POST })
 public class sectionController {
     @Autowired
-
-    sectionService sectionService = new sectionService();
+    sectionService sectionservice = new sectionService();
 
 
     @RequestMapping(path = "/add", method = RequestMethod.POST)
 	public ResponseEntity<?> addSection(@RequestBody section newSection) {
 
-        sectionService.addSection(newSection);
+        sectionservice.addSection(newSection);
 
 		HttpHeaders headers = new HttpHeaders();
 		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
@@ -35,21 +34,21 @@ public class sectionController {
     @RequestMapping(path = "/all", method = RequestMethod.GET)
     public ResponseEntity<Iterable<section>> getAllSections() {
 
-		Iterable<section> sections = sectionService.findAllSections();
+		Iterable<section> sections = sectionservice.findAllSections();
 		return new ResponseEntity<Iterable<section>>(sections, HttpStatus.OK);
 	}
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> getSectionById(@PathVariable("id") Long id) {
-		section newSection = sectionService.findSection(id);
+	public ResponseEntity<?> getSection(@PathVariable("id") Long id) {
+		section newSection = sectionservice.findSection(id);
 		return new ResponseEntity<section>(newSection, HttpStatus.OK);
 	}
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteSection(@PathVariable("id") Long id) {
 
-        sectionService.deleteSection(id);
+        sectionservice.deleteSection(id);
 		return new ResponseEntity<section>(HttpStatus.NO_CONTENT);
 	}
 
@@ -57,7 +56,7 @@ public class sectionController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateSection(@PathVariable("id") Long id, @RequestBody section newSection) {
 
-        sectionService.updateSection(id, newSection);
+        sectionservice.updateSection(id, newSection);
         newSection.setSectionId(id);
 		return new ResponseEntity<section>(newSection, HttpStatus.OK);
 	}

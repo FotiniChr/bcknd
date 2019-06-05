@@ -19,13 +19,9 @@ public class roomService {
         return roomrepository.findById(roomId).get();
     }
 
-    public String addRoom(int seats, int _costPerDay) {
+    public void addRoom(room newRoom) {
 
-        room newroom = new room();
-        newroom.setSeats(seats);
-        newroom.setCostPerDay(_costPerDay);
-        roomrepository.save(newroom);
-        return "saved";
+        roomrepository.save(newRoom);
     }
 
     public String deleteRoom(Long roomId) {
@@ -34,12 +30,12 @@ public class roomService {
         return "deleted";
     }
 
-    public String updateRoom(Long roomId, int seats, int _costPerDay) {
+    public String updateRoom(Long id, room newRoom) {
 
-        room newroom = roomrepository.findById(roomId).get();
-        newroom.setSeats(seats);
-        newroom.setCostPerDay(_costPerDay);
-        roomrepository.save(newroom);
+        room r = roomrepository.findById(id).get();
+        r.setSeats(newRoom.getSeats());
+        r.setCostPerDay(newRoom.getCostPerDay());
+        roomrepository.save(r);
         return "updated";
     }
 

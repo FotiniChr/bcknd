@@ -1,10 +1,12 @@
 package com.example.demobcknd.models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,10 +24,13 @@ public class customer {
     private String postalCode;
 
     // ++ gia to rent.java
-    @OneToOne(mappedBy = "newCustomer")
-    @JsonIgnore
-    private rent _rent;
+    // @OneToOne(mappedBy = "newCustomer")
+    // @JsonIgnore
+    // private rent _rent;
 
+    @OneToMany(mappedBy = "newCustomer")
+    @JsonIgnore
+    private List<rent> rents;
 
     public customer() {
     }

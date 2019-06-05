@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class performancePriceService {
 
     @Autowired
-    private performancePriceRepository p;
+    private performancePriceRepository perfPriceRepository;
 
     @Autowired // epeidh exo pedio section_id (fk)
     private sectionRepository sectRep;
@@ -22,45 +22,37 @@ public class performancePriceService {
     private performanceRepository perfrep;
 
     public Iterable<performancePrice> findAllPerformancePrices() {
-        return p.findAll();
+        return perfPriceRepository.findAll();
     }
 
     public performancePrice findPerformancePrice(Long performancePriceId) {
-        return p.findById(performancePriceId).get();
+        return perfPriceRepository.findById(performancePriceId).get();
     }
 
-    public String addPerformancePrice(long newPerformance, long newSection, float ticketPrice) {
+    public void addPerformancePrice(performancePrice newPerformancePrice) {
 
-        performance newperf = perfrep.findById(newPerformance).get();
-        section newsec = sectRep.findById(newSection).get();
-
-        performancePrice newperprice = new performancePrice();
-        newperprice.setNewPerformance(newperf);
-        newperprice.setNewSection(newsec);
-        newperprice.setTicketPrice(ticketPrice);
-
-        p.save(newperprice);
-        return "saved";
+        perfPriceRepository.save(newPerformancePrice);
     }
 
     public String deletePerformancePrice(Long performancePriceId) {
 
-        p.deleteById(performancePriceId);
+        perfPriceRepository.deleteById(performancePriceId);
         return "deleted";
     }
 
-    public String updatePerformancePrice(long performancePriceId, long newPerformance, long newSection,
-            float ticketPrice) {
 
-        performance newperf = perfrep.findById(newPerformance).get();
-        section newsec = sectRep.findById(newSection).get();
 
-        performancePrice newperprice = p.findById(performancePriceId).get();
+    public String updatePerformancePrice(long id, performancePrice newPerformancePrice) {
+
+        performance newperf = perfrep.findById(newPerformancePrice.getNewPerformance().getPerformanceId()).get();
+        section newsec = sectRep.findById(newPerformancePrice.getNewSection().getSectionId()).get();
+
+        performancePrice newperprice = perfPriceRepository.findById(id).get();
         newperprice.setNewPerformance(newperf);
         newperprice.setNewSection(newsec);
-        newperprice.setTicketPrice(ticketPrice);
+        newperprice.setTicketPrice(newPerformancePrice.getTicketPrice());
 
-        p.save(newperprice);
+        perfPriceRepository.save(newperprice);
         return "updated";
     }
 

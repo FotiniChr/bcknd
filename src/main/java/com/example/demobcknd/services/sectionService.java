@@ -30,9 +30,6 @@ public class sectionService {
 
     public void addSection(section newSection) {
 
-        
-        // room newroom =  roomrepository.findById(newSection.getNewroom().getRoomId()).get();
-        // newSection.setNewroom(newroom);
         sectionrepository.save(newSection);
     }
 

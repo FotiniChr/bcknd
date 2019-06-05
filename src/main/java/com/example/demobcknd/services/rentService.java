@@ -29,18 +29,9 @@ public class rentService {
         return rentrepository.findById(rentId).get();
     }
 
-    public String addRent(Long customerId, Long roomId, String date, int period) {
+    public void addRent(rent newRent) {
 
-        customer newcustomer = custRep.findById(customerId).get();
-        room newroom = roomrepository.findById(roomId).get();
-
-        rent newrent = new rent();
-        newrent.setNewCustomer(newcustomer);
-        newrent.setNewRoom(newroom);
-        newrent.setDate(date);
-        newrent.setPeriod(period);
-        rentrepository.save(newrent);
-        return "saved";
+        rentrepository.save(newRent);
     }
 
     public String deleteRent(Long rentId) {
@@ -49,19 +40,19 @@ public class rentService {
         return "deleted";
     }
 
-    public String updateRent(Long rentId, Long customerId, Long roomId, String date, int period) {
+    public String updateRent(Long id, rent newRent) {
 
         // customerId, roomId einai apo to rent.java ta referencedColumnName = " "
 
-        customer newcustomer = custRep.findById(customerId).get();
-        room newroom = roomrepository.findById(roomId).get();
+        customer newcustomer = custRep.findById(newRent.getNewCustomer().getCustomerId()).get();
+        room newroom = roomrepository.findById(newRent.getNewRoom().getRoomId()).get();
 
-        rent newrent = rentrepository.findById(rentId).get();
-        newrent.setNewCustomer(newcustomer); // customer newcustomer = custRep.findById(customerId).get();
-        newrent.setNewRoom(newroom); // room newroom = roomrepository.findById(roomId).get();
-        newrent.setDate(date);
-        newrent.setPeriod(period);
-        rentrepository.save(newrent);
+        rent r = rentrepository.findById(id).get();
+        r.setNewCustomer(newcustomer); // customer newcustomer = custRep.findById(customerId).get();
+        r.setNewRoom(newroom); // room newroom = roomrepository.findById(roomId).get();
+        r.setDate(newRent.getDate());
+        r.setPeriod(newRent.getPeriod());
+        rentrepository.save(r);
         return "updated";
     }
 

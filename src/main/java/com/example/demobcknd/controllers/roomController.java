@@ -3,55 +3,62 @@ package com.example.demobcknd.controllers;
 import com.example.demobcknd.models.room;
 import com.example.demobcknd.services.roomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 
 @Controller
 @CrossOrigin 
-@RequestMapping(path = "/room")
+@RequestMapping(path = "/room", method = { RequestMethod.GET, RequestMethod.POST })
 public class roomController {
     @Autowired
-
     roomService roomservice = new roomService();
 
-    @GetMapping(path = "/add") // Map ONLY GET Requests
-    public @ResponseBody String addNewRoom(@RequestParam int seats, @RequestParam int costperday) {
+    @RequestMapping(path = "/add", method = RequestMethod.POST)
+	public ResponseEntity<?> addRoom(@RequestBody room newRoom) {
 
-        return roomservice.addRoom(seats, costperday);
+        roomservice.addRoom(newRoom);
 
+		HttpHeaders headers = new HttpHeaders();
+		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 
-    @GetMapping(path = "/all")
-    public @ResponseBody Iterable<room> getAllRooms() {
 
-        return roomservice.findAllRooms();
+    @RequestMapping(path = "/all", method = RequestMethod.GET)
+    public ResponseEntity<Iterable<room>> getAllRooms() {
 
-    }
+		Iterable<room> rooms = roomservice.findAllRooms();
+		return new ResponseEntity<Iterable<room>>(rooms, HttpStatus.OK);
+	}
 
-    @RequestMapping("{id}")
-    public @ResponseBody room getRoomById(@PathVariable("id") Long id) {
 
-        return roomservice.findRoom(id);
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> getRoom(@PathVariable("id") Long id) {
+		room newRoom = roomservice.findRoom(id);
+		return new ResponseEntity<room>(newRoom, HttpStatus.OK);
+	}
 
-    }
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteRoom(@PathVariable("id") Long id) {
 
-    @RequestMapping("/delete/{id}")
-    public @ResponseBody String deleteRoomById(@PathVariable("id") Long id) {
+        roomservice.deleteRoom(id);
+		return new ResponseEntity<room>(HttpStatus.NO_CONTENT);
+	}
 
-        return roomservice.deleteRoom(id);
 
-    }
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateRoom(@PathVariable("id") Long id, @RequestBody room newRoom) {
 
-    @RequestMapping("/update/{id}")
-    public @ResponseBody String updateRoom(@PathVariable("id") Long id, @RequestParam int seats,
-            @RequestParam int costperday) {
-
-        return roomservice.updateRoom(id, seats, costperday);
-    }
+        roomservice.updateRoom(id, newRoom);
+        newRoom.setRoomId(id);
+		return new ResponseEntity<room>(newRoom, HttpStatus.OK);
+	}
 
 }

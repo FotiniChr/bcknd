@@ -2,56 +2,66 @@ package com.example.demobcknd.controllers;
 
 import com.example.demobcknd.models.performancePrice;
 import com.example.demobcknd.services.performancePriceService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @CrossOrigin 
-@RequestMapping(path = "/performanceprice")
+@RequestMapping(path = "/performanceprice", method = { RequestMethod.GET, RequestMethod.POST })
+
 public class performancePriceController {
     @Autowired
-    performancePriceService ppeservice = new performancePriceService();
+    performancePriceService performancePriceservice = new performancePriceService();
 
-    @GetMapping(path = "/add") // Map ONLY GET Requests
-    public @ResponseBody String addNewPerformancePrice(@RequestParam long newPerformance, @RequestParam long newSection,
-            @RequestParam float ticketPrice) {
+   
+    @RequestMapping(path = "/add", method = RequestMethod.POST)
+	public ResponseEntity<?> addPerformancePrice(@RequestBody performancePrice newPerformancePrice) {
 
-        return ppeservice.addPerformancePrice(newPerformance, newSection, ticketPrice);
+        performancePriceservice.addPerformancePrice(newPerformancePrice);
 
+		HttpHeaders headers = new HttpHeaders();
+		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
+    
 
-    @GetMapping(path = "/all")
-    public @ResponseBody Iterable<performancePrice> getAllPerformancePrices() {
+    @RequestMapping(path = "/all", method = RequestMethod.GET)
+    public ResponseEntity<Iterable<performancePrice>> getAllPerformancePrices() {
 
-        return ppeservice.findAllPerformancePrices();
+		Iterable<performancePrice> performancePrices = performancePriceservice.findAllPerformancePrices();
+		return new ResponseEntity<Iterable<performancePrice>>(performancePrices, HttpStatus.OK);
+	}
 
-    }
 
-    @RequestMapping("{id}")
-    public @ResponseBody performancePrice getPerformancePriceById(@PathVariable("id") Long performancePriceId) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> getPerformancePrice(@PathVariable("id") Long id) {
+        performancePrice newPerformancePrice = performancePriceservice.findPerformancePrice(id);
+		return new ResponseEntity<performancePrice>(newPerformancePrice, HttpStatus.OK);
+	}
 
-        return ppeservice.findPerformancePrice(performancePriceId);
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deletePerformancePrice(@PathVariable("id") Long id) {
 
-    }
+        performancePriceservice.deletePerformancePrice(id);
+		return new ResponseEntity<performancePrice>(HttpStatus.NO_CONTENT);
+	}
 
-    @RequestMapping("/delete/{id}")
-    public @ResponseBody String deletePerformancePriceById(@PathVariable("id") Long performancePriceId) {
 
-        return ppeservice.deletePerformancePrice(performancePriceId);
-    }
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> updatePerformancePrice(@PathVariable("id") Long id, @RequestBody performancePrice newPerformancePrice) {
 
-    @RequestMapping("/update/{id}")
-    public @ResponseBody String updatePerformancePrice(@PathVariable("id") Long performancePriceId,
-            @RequestParam long newPerformance, @RequestParam long newSection, @RequestParam float ticketPrice) {
+        performancePriceservice.updatePerformancePrice(id, newPerformancePrice);
+        newPerformancePrice.setPerformancePriceId(id);
+		return new ResponseEntity<performancePrice>(newPerformancePrice, HttpStatus.OK);
+	}
 
-        return ppeservice.updatePerformancePrice(performancePriceId, newPerformance, newSection, ticketPrice);
-
-    }
 
 }

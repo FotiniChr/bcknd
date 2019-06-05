@@ -7,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -26,9 +25,14 @@ public class room {
     private List<section> sections;
 
     // ++ gia to rent.java
-    @OneToOne(mappedBy = "newRoom")
+    // @OneToOne(mappedBy = "newRoom")
+    // @JsonIgnore
+    // private rent _rent;
+
+    @OneToMany(mappedBy = "newRoom")
     @JsonIgnore
-    private rent _rent;
+    private List<rent> rents;
+
 
     public room() {
     }

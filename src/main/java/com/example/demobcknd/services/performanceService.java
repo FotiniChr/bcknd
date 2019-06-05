@@ -23,18 +23,9 @@ public class performanceService {
         return performanseRep.findById(performanceId).get();
     }
 
-    public String addPerformance(String name, long newCast, String date, String start_time, int duration) {
+    public String addPerformance(performance newPerformance) {
 
-        cast newcast = castRep.findById(newCast).get();
-
-        performance newper = new performance();
-        newper.setName(name);
-        newper.setNewCast(newcast);
-        newper.setDate(date);
-        newper.setStart_time(start_time);
-        newper.setDuration(duration);
-
-        performanseRep.save(newper);
+        performanseRep.save(newPerformance);
         return "saved";
     }
 
@@ -44,19 +35,18 @@ public class performanceService {
         return "deleted";
     }
 
-    public String updatePerformance(Long performanceId, String name, long newCast, String date, String start_time,
-            int duration) {
+    public String updatePerformance(Long id, performance newPerformance) {
 
-        cast newcast = castRep.findById(newCast).get();
+        cast newcast = castRep.findById(newPerformance.getNewCast().getCastId()).get();
 
-        performance newper = performanseRep.findById(performanceId).get();
-        newper.setName(name);
-        newper.setNewCast(newcast);
-        newper.setDate(date);
-        newper.setStart_time(start_time);
-        newper.setDuration(duration);
+        performance p = performanseRep.findById(id).get();
+        p.setName(newPerformance.getName());
+        p.setNewCast(newcast);
+        p.setDate(newPerformance.getDate());
+        p.setStart_time(newPerformance.getStart_time());
+        p.setDuration(newPerformance.getDuration());
 
-        performanseRep.save(newper);
+        performanseRep.save(p);
         return "updated";
     }
 
