@@ -24,19 +24,15 @@ public class roomService {
         roomrepository.save(newRoom);
     }
 
-    public String deleteRoom(Long roomId) {
+    public void deleteRoom(Long roomId) {
 
         roomrepository.deleteById(roomId);
-        return "deleted";
     }
 
-    public String updateRoom(Long id, room newRoom) {
+    public void updateRoom(Long id, room newRoom) {
 
-        room r = roomrepository.findById(id).get();
-        r.setSeats(newRoom.getSeats());
-        r.setCostPerDay(newRoom.getCostPerDay());
-        roomrepository.save(r);
-        return "updated";
+        newRoom.setRoomId(id);
+        roomrepository.save(newRoom);
     }
 
 }

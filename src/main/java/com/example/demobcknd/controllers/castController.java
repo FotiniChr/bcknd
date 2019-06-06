@@ -3,56 +3,66 @@ package com.example.demobcknd.controllers;
 import com.example.demobcknd.models.cast;
 import com.example.demobcknd.services.castService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @CrossOrigin 
-@RequestMapping(path = "/cast")
+@RequestMapping(path = "/cast", method = { RequestMethod.GET, RequestMethod.POST })
 public class castController {
     @Autowired
 
     castService castservice = new castService();
 
-    @GetMapping(path = "/add") // Map ONLY GET Requests
-    public @ResponseBody String addNewRoom(@RequestParam String direction, @RequestParam String stage_composition,
-            @RequestParam String costumes, @RequestParam String stars, @RequestParam String actors) {
+    @RequestMapping(path = "/add", method = RequestMethod.POST)
+	public ResponseEntity<?> addCast(@RequestBody cast newCast) {
 
-        return castservice.addCast(direction, stage_composition, costumes, stars, actors);
+        castservice.addCast(newCast);
 
+		HttpHeaders headers = new HttpHeaders();
+		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
+    
 
-    @GetMapping(path = "/all")
-    public @ResponseBody Iterable<cast> getAllCasts() {
+    @RequestMapping(path = "/all", method = RequestMethod.GET)
+    public ResponseEntity<Iterable<cast>> getAllCast() {
 
-        return castservice.findAllCast();
-    }
+		Iterable<cast> casts = castservice.findAllCast();
+		return new ResponseEntity<Iterable<cast>>(casts, HttpStatus.OK);
+	}
 
-    @RequestMapping("{id}")
-    public @ResponseBody cast getCastId(@PathVariable("id") Long castId) {
 
-        return castservice.findCast(castId);
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> getCast(@PathVariable("id") Long id) {
 
-    }
+		cast newCast = castservice.findCast(id);
+		return new ResponseEntity<cast>(newCast, HttpStatus.OK);
+	}
 
-    @RequestMapping("/delete/{id}")
-    public @ResponseBody String deleteCastById(@PathVariable("id") Long castId) {
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteCast(@PathVariable("id") Long id) {
 
-        return castservice.deleteCast(castId);
+        castservice.deleteCast(id);
+		return new ResponseEntity<cast>(HttpStatus.NO_CONTENT);
+	}
 
-    }
 
-    @RequestMapping("/update/{id}")
-    public @ResponseBody String updateCast(@PathVariable("id") Long castid, @RequestParam String direction,
-            @RequestParam String stage_composition, @RequestParam String costumes, @RequestParam String stars,
-            @RequestParam String actors) {
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateCast(@PathVariable("id") Long id, @RequestBody cast newCast) {
 
-        return castservice.updateCast(castid, direction, stage_composition, costumes, stars, actors);
-    }
+        castservice.updateCast(id, newCast);
+        newCast.setCastId(id);
+		return new ResponseEntity<cast>(newCast, HttpStatus.OK);
+	}
 
 }

@@ -33,22 +33,18 @@ public class sectionService {
         sectionrepository.save(newSection);
     }
 
-    public String deleteSection(Long sectionId) {
+    public void deleteSection(Long sectionId) {
 
         sectionrepository.deleteById(sectionId);
-        return "deleted";
     }
 
-    public String updateSection(Long id, section newSection) {
+    public void updateSection(Long id, section newSection) {
 
         room newroom =  roomrepository.findById(newSection.getNewroom().getRoomId()).get();
 
-        section s = sectionrepository.findById(id).get();
-        s.setRows(newSection.getRows());
-        s.setSeats(newSection.getSeats());
-        s.setNewroom(newroom);
-        sectionrepository.save(s);
-        return "updated";
+        newSection.setSectionId(id);
+        newSection.setNewroom(newroom);
+        sectionrepository.save(newSection);
     }
 
 

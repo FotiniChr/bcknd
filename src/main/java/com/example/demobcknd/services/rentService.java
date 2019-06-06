@@ -34,26 +34,22 @@ public class rentService {
         rentrepository.save(newRent);
     }
 
-    public String deleteRent(Long rentId) {
+    public void deleteRent(Long rentId) {
 
         rentrepository.deleteById(rentId);
-        return "deleted";
     }
 
-    public String updateRent(Long id, rent newRent) {
+    public void updateRent(Long id, rent newRent) {
 
         // customerId, roomId einai apo to rent.java ta referencedColumnName = " "
 
         customer newcustomer = custRep.findById(newRent.getNewCustomer().getCustomerId()).get();
         room newroom = roomrepository.findById(newRent.getNewRoom().getRoomId()).get();
 
-        rent r = rentrepository.findById(id).get();
-        r.setNewCustomer(newcustomer); // customer newcustomer = custRep.findById(customerId).get();
-        r.setNewRoom(newroom); // room newroom = roomrepository.findById(roomId).get();
-        r.setDate(newRent.getDate());
-        r.setPeriod(newRent.getPeriod());
-        rentrepository.save(r);
-        return "updated";
+        newRent.setRentId(id);
+        newRent.setNewCustomer(newcustomer); 
+        newRent.setNewRoom(newroom); 
+        rentrepository.save(newRent);
     }
 
 }

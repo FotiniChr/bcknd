@@ -34,15 +34,14 @@ public class performancePriceService {
         perfPriceRepository.save(newPerformancePrice);
     }
 
-    public String deletePerformancePrice(Long performancePriceId) {
+    public void deletePerformancePrice(Long performancePriceId) {
 
         perfPriceRepository.deleteById(performancePriceId);
-        return "deleted";
-    }
+        }
 
 
 
-    public String updatePerformancePrice(long id, performancePrice newPerformancePrice) {
+    public void updatePerformancePrice(long id, performancePrice newPerformancePrice) {
 
         performance newperf = perfrep.findById(newPerformancePrice.getNewPerformance().getPerformanceId()).get();
         section newsec = sectRep.findById(newPerformancePrice.getNewSection().getSectionId()).get();
@@ -53,7 +52,6 @@ public class performancePriceService {
         newperprice.setTicketPrice(newPerformancePrice.getTicketPrice());
 
         perfPriceRepository.save(newperprice);
-        return "updated";
     }
 
 }

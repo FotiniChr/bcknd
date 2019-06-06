@@ -28,11 +28,9 @@ public class userService {
         userRep.deleteById(id);
     }
     
-    public void updateUser(int id,user user) {
-        user u = userRep.findById(id).get();
-        u.setEmail(user.getEmail());
-        u.setName(user.getName());
-        userRep.save(u);
+    public void updateUser(int id,user newUser) {
+        newUser.setId(id);
+        userRep.save(newUser);
     }
 
 }

@@ -20,34 +20,19 @@ public class castService {
         return castRep.findById(castId).get();
     }
 
-    public String addCast(String direction, String stage_composition, String costumes, String stars, String actors) {
-        cast c = new cast();
-        c.setDirection(direction);
-        c.setStage_composition(stage_composition);
-        c.setCostumes(costumes);
-        c.setStars(stars);
-        c.setActors(actors);
-        castRep.save(c);
-        return "Saved";
+    public void addCast(cast newCast) {
+        
+        castRep.save(newCast);
     }
 
-    public String deleteCast(long castId) {
+    public void deleteCast(long castId) {
         castRep.deleteById(castId);
-        return "deleted";
     }
 
-    public String updateCast(long castId, String direction, String stage_composition, String costumes,
-            String stars, String actors) {
-
-        cast c = castRep.findById(castId).get();
-
-        c.setDirection(direction);
-        c.setStage_composition(stage_composition);
-        c.setCostumes(costumes);
-        c.setStars(stars);
-        c.setActors(actors);
-        castRep.save(c);
-        return "Saved";
+    public void updateCast(long id, cast newCast) {
+ 
+        newCast.setCastId(id);
+        castRep.save(newCast);
     }
 
 }

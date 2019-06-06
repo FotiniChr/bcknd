@@ -30,12 +30,9 @@ public class theaterService {
     }
 
     public void updateTheater(int id, theater newTheater) {
-        theater t = theaterrepository.findById(id).get();
-        t.setAddress(newTheater.getAddress());
-        t.setPostalCode(newTheater.getPostalCode());
-        t.setPhone(newTheater.getPhone());
-        t.setMail(newTheater.getMail());
-        theaterrepository.save(t);
+       
+        newTheater.setTheaterId(id);
+        theaterrepository.save(newTheater);
     }
 
 

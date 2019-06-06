@@ -20,35 +20,25 @@ public class customerService {
         return custRep.findById(customerId).get();
     }
 
-    public String addCustomer( String firstName, String lastName, String email,
-    String phone, String address, String postalCode) {
-        customer u = new customer();
-        u.setFirstName(firstName);
-        u.setLastName(lastName);
-        u.setEmail(email);
-        u.setPhone(phone);
-        u.setAddress(address);
-        u.setPostalCode(postalCode);
-        custRep.save(u);
-        return "Saved";
+    public void addCustomer( customer newCustomer) {
+
+        custRep.save(newCustomer);
     }
 
-    public String deleteCustomer(long customerId) {
+    public void deleteCustomer(long customerId) {
         custRep.deleteById(customerId);
-        return "deleted";
     }
     
-    public String updateCustomer(long customerId, String firstName, String lastName, String email,
-    String phone, String address, String postalCode ) {
-        customer u = custRep.findById(customerId).get();
-        u.setFirstName(firstName);
-        u.setLastName(lastName);
-        u.setEmail(email);
-        u.setPhone(phone);
-        u.setAddress(address);
-        u.setPostalCode(postalCode);
-        custRep.save(u);
-        return "updated";
+    public void updateCustomer(long id, customer newCustomer ) {
+        // customer u = custRep.findById(id).get();
+        // u.setFirstName(firstName);
+        // u.setLastName(lastName);
+        // u.setEmail(email);
+        // u.setPhone(phone);
+        // u.setAddress(address);
+        // u.setPostalCode(postalCode);
+        newCustomer.setCustomerId(id);
+        custRep.save(newCustomer);
     }
 
 }

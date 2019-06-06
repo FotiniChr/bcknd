@@ -3,58 +3,60 @@ package com.example.demobcknd.controllers;
 import com.example.demobcknd.models.customer;
 import com.example.demobcknd.services.customerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@CrossOrigin 
-@RequestMapping(path = "/customer")
+@CrossOrigin
+@RequestMapping(path = "/customer", method = { RequestMethod.GET, RequestMethod.POST })
 public class customerController {
     @Autowired
 
     customerService customerservice = new customerService();
 
-    @GetMapping(path = "/add") // Map ONLY GET Requests
-    public @ResponseBody String addNewCustomer(@RequestParam String firstname, @RequestParam String lastname,
-            @RequestParam String email, @RequestParam String phone, @RequestParam String address,
-            @RequestParam String postalcode) {
+    @RequestMapping(path = "/add", method = RequestMethod.POST)
+    public ResponseEntity<?> addCustomer(@RequestBody customer newCustomer) {
 
-        return customerservice.addCustomer(firstname, lastname, email, phone, address, postalcode);
+        customerservice.addCustomer(newCustomer);
 
+        HttpHeaders headers = new HttpHeaders();
+        return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 
-    @GetMapping(path = "/all")
-    public @ResponseBody Iterable<customer> getAllCustomer() {
+    @RequestMapping(path = "/all", method = RequestMethod.GET)
+    public ResponseEntity<Iterable<customer>> getAllCustomers() {
 
-        return customerservice.findAllCustomers();
-
+        Iterable<customer> customers = customerservice.findAllCustomers();
+        return new ResponseEntity<Iterable<customer>>(customers, HttpStatus.OK);
     }
 
-    @RequestMapping("{id}")
-    public @ResponseBody customer getCustomerById(@PathVariable("id") Long id) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> getCustomer(@PathVariable("id") Long id) {
 
-        return customerservice.findCustomer(id);
-
+        customer newCustomer = customerservice.findCustomer(id);
+        return new ResponseEntity<customer>(newCustomer, HttpStatus.OK);
     }
 
-    @RequestMapping("/delete/{id}")
-    public @ResponseBody String deleteCustomerById(@PathVariable("id") Long id) {
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteSection(@PathVariable("id") Long id) {
 
-        return customerservice.deleteCustomer(id);
-
+        customerservice.deleteCustomer(id);
+        return new ResponseEntity<customer>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping("/update/{id}")
-    public @ResponseBody String updateCustomer(@PathVariable("id") long id, @RequestParam String firstname,
-            @RequestParam String lastname, @RequestParam String email, @RequestParam String phone,
-            @RequestParam String address, @RequestParam String postalcode) {
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateCustomer(@PathVariable("id") Long id, @RequestBody customer newCustomer) {
 
-        return customerservice.updateCustomer(id, firstname, lastname, email, phone, address, postalcode);
-    }
+        customerservice.updateCustomer(id, newCustomer);
+        newCustomer.setCustomerId(id);
+		return new ResponseEntity<customer>(newCustomer, HttpStatus.OK);
+	}
 
 }

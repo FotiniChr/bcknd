@@ -23,31 +23,23 @@ public class performanceService {
         return performanseRep.findById(performanceId).get();
     }
 
-    public String addPerformance(performance newPerformance) {
+    public void addPerformance(performance newPerformance) {
 
         performanseRep.save(newPerformance);
-        return "saved";
     }
 
-    public String deletePerformance(Long performanceId) {
+    public void deletePerformance(Long performanceId) {
 
         performanseRep.deleteById(performanceId);
-        return "deleted";
     }
 
-    public String updatePerformance(Long id, performance newPerformance) {
+    public void updatePerformance(Long id, performance newPerformance) {
 
         cast newcast = castRep.findById(newPerformance.getNewCast().getCastId()).get();
 
-        performance p = performanseRep.findById(id).get();
-        p.setName(newPerformance.getName());
-        p.setNewCast(newcast);
-        p.setDate(newPerformance.getDate());
-        p.setStart_time(newPerformance.getStart_time());
-        p.setDuration(newPerformance.getDuration());
-
-        performanseRep.save(p);
-        return "updated";
+        newPerformance.setPerformanceId(id);
+        newPerformance.setNewCast(newcast);
+        performanseRep.save(newPerformance);
     }
 
 }
