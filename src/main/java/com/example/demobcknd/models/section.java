@@ -1,5 +1,6 @@
 package com.example.demobcknd.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +17,7 @@ public class section {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sectionId;
 
+    @Column(name = "\"rows\"")
     private int rows;
     private int seats;
 
@@ -40,13 +42,15 @@ public class section {
         this.sectionId = sectionId;
     }
 
-    public int getRows() {
+
+    public int getColumns() {
         return this.rows;
     }
 
-    public void setRows(int rows) {
+    public void setColumns(int rows) {
         this.rows = rows;
     }
+    
 
     public int getSeats() {
         return this.seats;
